@@ -5,7 +5,7 @@ import 'package:shoe_shop_app/core/error/exception.dart';
 import 'package:shoe_shop_app/core/error/failure.dart';
 import 'package:shoe_shop_app/features/discover/data/datasources/discover_remote_data_source.dart';
 import 'package:shoe_shop_app/features/discover/data/repos/discover_repo_implementation.dart';
-import 'package:shoe_shop_app/features/discover/domain/entities/shoes.dart';
+import 'package:shoe_shop_app/features/discover/domain/entities/shoe.dart';
 
 class MockDiscoverRemoteDataSrc extends Mock
     implements DiscoverRemoteDataSource {}

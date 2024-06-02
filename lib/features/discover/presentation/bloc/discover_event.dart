@@ -10,3 +10,6 @@ sealed class DiscoverEvent extends Equatable{
 class GetShoesEvent extends DiscoverEvent {
   const GetShoesEvent();
 }
+class GetCategoriesEvent extends DiscoverEvent {
+  const GetCategoriesEvent();
+}

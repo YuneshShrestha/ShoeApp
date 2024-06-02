@@ -8,6 +8,9 @@ class Shoe extends Equatable {
   final int numberOfReviews;
   final int price;
   final String productID;
+  final List<String> sizeOptions;
+  final List<String> colorOptions;
+  final String description;
 
   const Shoe.empty()
       : avgRating = 4.5,
@@ -16,7 +19,11 @@ class Shoe extends Equatable {
         name = 'Nike Air Max',
         numberOfReviews = 250,
         price = 120,
-        productID = '1';
+        productID = '1',
+        sizeOptions = const ['7', '8', '9', '10', '11'],
+        colorOptions = const ["Red", "Blue", "Black"],
+        description =
+            "The Nike Air Max is a comfortable and stylish shoe, perfect for everyday wear.";
 
   const Shoe({
     required this.productID,
@@ -26,6 +33,9 @@ class Shoe extends Equatable {
     required this.avgRating,
     required this.numberOfReviews,
     required this.categoryID,
+    required this.sizeOptions,
+    required this.colorOptions,
+    required this.description,
   });
 
   @override
@@ -36,6 +46,9 @@ class Shoe extends Equatable {
         price,
         avgRating,
         numberOfReviews,
-        categoryID
+        categoryID,
+        sizeOptions,
+        colorOptions,
+        description,
       ];
 }

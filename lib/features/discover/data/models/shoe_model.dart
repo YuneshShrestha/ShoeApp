@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:shoe_shop_app/core/utils/typedef.dart';
-import 'package:shoe_shop_app/features/discover/domain/entities/shoes.dart';
+import 'package:shoe_shop_app/features/discover/domain/entities/shoe.dart';
 
 class ShoeModel extends Shoe {
   const ShoeModel({
@@ -12,17 +12,11 @@ class ShoeModel extends Shoe {
     required super.numberOfReviews,
     required super.price,
     required super.productID,
+    required super.colorOptions,
+    required super.description,
+    required super.sizeOptions,
   });
-  const ShoeModel.empty()
-      : this(
-          avgRating: 4.5,
-          categoryID: '1',
-          imageUrl: 'https://example.com/nike_air_max.jpg',
-          name: 'Nike Air Max',
-          numberOfReviews: 250,
-          price: 120,
-          productID: '1',
-        );
+  const ShoeModel.empty() : super.empty();
   factory ShoeModel.fromJson(String source) {
     return ShoeModel.fromMap(jsonDecode(source) as DataMap);
   }
@@ -35,6 +29,9 @@ class ShoeModel extends Shoe {
       numberOfReviews: int.parse((map['number_of_reviews'] ?? 0).toString()),
       price: int.parse((map['price'] ?? 0).toString()),
       productID: map['product_id'].toString(),
+      colorOptions: map['color_options']?.cast<String>() ?? [],
+      sizeOptions: map['size_options']?.cast<String>() ?? [],
+      description: map['description'].toString(),
     );
   }
 
@@ -46,6 +43,9 @@ class ShoeModel extends Shoe {
     int? numberOfReviews,
     int? price,
     String? productID,
+    List<String>? colorOptions,
+    List<String>? sizeOptions,
+    String? description,
   }) {
     return ShoeModel(
       avgRating: avgRating ?? this.avgRating,
@@ -55,6 +55,9 @@ class ShoeModel extends Shoe {
       numberOfReviews: numberOfReviews ?? this.numberOfReviews,
       price: price ?? this.price,
       productID: productID ?? this.productID,
+      colorOptions: colorOptions ?? this.colorOptions,
+      sizeOptions: sizeOptions ?? this.sizeOptions,
+      description: description ?? this.description,
     );
   }
 
@@ -67,6 +70,9 @@ class ShoeModel extends Shoe {
       'number_of_reviews': numberOfReviews,
       'price': price,
       'product_id': productID,
+      'color_options': colorOptions,
+      'size_options': sizeOptions,
+      'description': description,
     };
   }
 

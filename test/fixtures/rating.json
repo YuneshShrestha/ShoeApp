@@ -1,44 +1,5 @@
 {
-  "ratings": [
-    {
-      "product_id": "1",
-      "rating": 5,
-      "rating_id": "1"
-    },
-    {
-      "product_id": "1",
-      "rating": 4,
-      "rating_id": "2"
-    },
-    {
-      "product_id": "2",
-      "rating": 5,
-      "rating_id": "3"
-    },
-    {
-      "product_id": "2",
-      "rating": 4,
-      "rating_id": "4"
-    },
-    {
-      "product_id": "3",
-      "rating": 3,
-      "rating_id": "5"
-    },
-    {
-      "product_id": "3",
-      "rating": 4,
-      "rating_id": "6"
-    },
-    {
-      "product_id": "4",
-      "rating": 5,
-      "rating_id": "7"
-    },
-    {
-      "product_id": "4",
-      "rating": 5,
-      "rating_id": "8"
-    }
-  ]
+  "product_id": "1",
+  "rating": 5,
+  "rating_id": "1"
 }

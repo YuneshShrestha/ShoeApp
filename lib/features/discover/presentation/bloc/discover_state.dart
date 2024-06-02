@@ -16,12 +16,20 @@ final class DiscoverLoading extends DiscoverState {
   const DiscoverLoading();
 }
 
-final class DiscoverLoaded extends DiscoverState {
+final class ShoesLoaded extends DiscoverState {
   final List<Shoe> shoes;
-  const DiscoverLoaded(this.shoes);
+  const ShoesLoaded(this.shoes);
 
   @override
   List<Object> get props => shoes.map((e) => e.productID).toList();
+}
+
+final class CategoriesLoaded extends DiscoverState {
+  final List<Category> categories;
+  const CategoriesLoaded(this.categories);
+
+  @override
+  List<Object> get props => categories.map((e) => e.id).toList();
 }
 
 final class DiscoverError extends DiscoverState {

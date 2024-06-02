@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shoe_shop_app/features/discover/domain/entities/shoe.dart';
 import 'package:shoe_shop_app/features/discover/presentation/bloc/discover_bloc.dart';
 
 class DiscoverPage extends StatefulWidget {
@@ -16,12 +17,20 @@ class _DiscoverPageState extends State<DiscoverPage> {
     super.initState();
 
     // _database = FirebaseDatabase.instance;
+    getCategories();
+
     getShoes();
   }
 
   void getShoes() async {
     context.read<DiscoverBloc>().add(const GetShoesEvent());
   }
+
+  void getCategories() async {
+    context.read<DiscoverBloc>().add(const GetCategoriesEvent());
+  }
+
+  List<Shoe> shoes = [];
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +42,8 @@ class _DiscoverPageState extends State<DiscoverPage> {
               content: Text(state.message),
             ),
           );
+        } else if (state is ShoesLoaded) {
+          shoes = state.shoes;
         }
       },
       builder: (context, state) {
@@ -44,16 +55,12 @@ class _DiscoverPageState extends State<DiscoverPage> {
               ? const Center(
                   child: CircularProgressIndicator(),
                 )
-              : state is DiscoverLoaded
-                  ? ListView.builder(
-                      itemCount: state.shoes.length,
-                      itemBuilder: (context, index) {
-                        final shoe = state.shoes[index];
-                        return ListTile(
-                          title: Text(shoe.name),
-                          subtitle: Text(shoe.categoryID),
-                        );
-                      },
+              : state is CategoriesLoaded
+                  ? Column(
+                      children: [
+                        Text("Categories: ${state.categories[0]}"),
+                        Text("Shoes: ${shoes[0].name}"),
+                      ],
                     )
                   : const SizedBox.shrink(),
         );

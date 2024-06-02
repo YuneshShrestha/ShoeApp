@@ -1,9 +1,12 @@
 {
-  "avg_rating": 4.5,
+  "product_id": "1",
   "category_id": "1",
-  "image_url": "https://example.com/nike_air_max.jpg",
   "name": "Nike Air Max",
-  "number_of_reviews": 250,
+  "image_url": "https://example.com/nike_air_max.jpg",
   "price": 120,
-  "product_id": "1"
+  "number_of_reviews": 250,
+  "avg_rating": 4.5,
+  "color_options": ["Red", "Blue", "Black"],
+  "size_options": ["7", "8", "9", "10", "11"],
+  "description": "The Nike Air Max is a comfortable and stylish shoe, perfect for everyday wear."
 }
