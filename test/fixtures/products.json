@@ -1,12 +1,31 @@
 {
-  "product_id": "1",
-  "category_id": "1",
-  "name": "Nike Air Max",
-  "image_url": "https://example.com/nike_air_max.jpg",
-  "price": 120,
-  "number_of_reviews": 250,
   "avg_rating": 4.5,
-  "color_options": ["Red", "Blue", "Black"],
-  "size_options": ["7", "8", "9", "10", "11"],
-  "description": "The Nike Air Max is a comfortable and stylish shoe, perfect for everyday wear."
+  "category_id": "1",
+  "color_options": [
+    {
+      "color": "Red",
+      "image": "Redimage"
+    },
+    {
+      "color": "Blue",
+      "image": "Blue Image"
+    },
+    {
+      "color": "Yellow",
+      "image": "Yellow Image"
+    }
+  ],
+  "description": "The Nike Air Max is a comfortable and stylish shoe, perfect for everyday wear.",
+  "image_url": "https://example.com/nike_air_max.jpg",
+  "name": "Nike Air Max",
+  "number_of_reviews": 250,
+  "price": 120,
+  "product_id": "1",
+  "size_options": [
+    "7",
+    "8",
+    "9",
+    "10",
+    "11"
+  ]
 }

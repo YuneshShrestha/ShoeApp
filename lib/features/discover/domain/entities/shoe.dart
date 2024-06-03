@@ -9,7 +9,7 @@ class Shoe extends Equatable {
   final int price;
   final String productID;
   final List<String> sizeOptions;
-  final List<String> colorOptions;
+  final List<Map<String, dynamic>> colorOptions;
   final String description;
 
   const Shoe.empty()
@@ -21,7 +21,11 @@ class Shoe extends Equatable {
         price = 120,
         productID = '1',
         sizeOptions = const ['7', '8', '9', '10', '11'],
-        colorOptions = const ["Red", "Blue", "Black"],
+        colorOptions = const [
+          {"color": "Red", "image": "Redimage"},
+          {"color": "Blue", "image": "Blue Image"},
+          {"color": "Yellow", "image": "Yellow Image"}
+        ],
         description =
             "The Nike Air Max is a comfortable and stylish shoe, perfect for everyday wear.";
 

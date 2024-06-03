@@ -23,7 +23,7 @@ class _ReviewPageState extends State<ReviewPage> {
   }
 
   void getReviews(String id) async {
-    context.read<ReviewBloc>().add(GetReviewsEvent(id));
+    context.read<ReviewBloc>().add(GetReviewsEvent(id, 1));
   }
 
   List<Rating> ratings = [];

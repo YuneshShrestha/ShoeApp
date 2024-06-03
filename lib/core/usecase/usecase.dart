@@ -6,3 +6,6 @@ abstract class UseCaseWithParam<T, P> {
 abstract class UseCase<T> {
   ResultFuture<T> call();
 }
+abstract class UseCaseWithTwoParam<T, P1, P2> {
+  ResultFuture<T> call(P1 param1, P2 param2);
+}

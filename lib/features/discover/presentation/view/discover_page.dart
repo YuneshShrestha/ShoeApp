@@ -30,7 +30,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
 
   void getRatings() async{
     final db = FirebaseDatabase.instance;
-    await ReviewRemoteDataSourceImpl(db).getRatings("1");
+    await ReviewRemoteDataSourceImpl(db).getRatings("1", null);
   }
   void addRating() async{
     final db = FirebaseDatabase.instance;

@@ -20,7 +20,7 @@ class RatingModel extends Rating {
   factory RatingModel.fromMap(DataMap map) {
     return RatingModel(
       productID: map['product_id'].toString(),
-      rating: int.parse((map['rating'] ?? 0).toString()),
+      rating: int.parse((map['product_rating'] ?? 0).toString()),
       ratingID: map['rating_id'].toString(),
       review: map['review'].toString(),
       userID: map['user_id'].toString(),
@@ -45,7 +45,7 @@ class RatingModel extends Rating {
   DataMap toMap() {
     return {
       'product_id': productID,
-      'rating': rating,
+      'product_rating': rating,
       'rating_id': ratingID,
       'review': review,
       'user_id': userID,

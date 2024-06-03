@@ -3,7 +3,7 @@ import 'package:shoe_shop_app/features/review/data/models/rating_model.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 abstract class ReviewRemoteDataSource {
-  Future<List<RatingModel>> getRatings(String productId);
+  Future<List<RatingModel>> getRatings(String productId, int? ratingLimit);
   Future<void> addRating({
     required String productId,
     required int rating,
@@ -42,12 +42,21 @@ class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
   }
 
   @override
-  Future<List<RatingModel>> getRatings(String productId) async {
+  Future<List<RatingModel>> getRatings(
+      String productId, int? ratingLimit) async {
     // trya
     try {
       final ref = _real.ref().child('rating').child('ratings');
-      final data =
-          await ref.orderByChild("product_id").equalTo(productId).once();
+      DatabaseEvent data;
+      if (ratingLimit != null) {
+        data = await ref
+            .orderByChild("product_id")
+            .equalTo(productId)
+            .limitToFirst(ratingLimit)
+            .once();
+      } else {
+        data = await ref.orderByChild("product_id").equalTo(productId).once();
+      }
 
       final List<RatingModel> ratings = [];
       for (int i = 0; i < data.snapshot.children.length; i++) {

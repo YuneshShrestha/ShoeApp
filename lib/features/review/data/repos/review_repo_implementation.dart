@@ -14,10 +14,11 @@ class ReviewRepoImplementation implements ReviewRepo {
   final ReviewRemoteDataSource _remoteDataSource;
 
   @override
-  ResultFuture<List<Rating>> getRatings(String productId) async {
+  ResultFuture<List<Rating>> getRatings(String productId, int? ratingCount) async {
     try {
       final data = await _remoteDataSource.getRatings(
         productId,
+        ratingCount,
       );
       return Right(data);
     } on CustomFirebaseException catch (e) {

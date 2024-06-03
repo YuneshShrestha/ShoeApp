@@ -10,8 +10,10 @@ sealed class ReviewEvent extends Equatable {
 
 class GetReviewsEvent extends ReviewEvent {
   final String productID;
+  final int? ratingCount;
   const GetReviewsEvent(
     this.productID,
+    this.ratingCount,
   );
 }
 
@@ -21,11 +23,9 @@ class PostReviewsEvent extends ReviewEvent {
     required this.rating,
     required this.review,
     required this.ratingId,
-
   });
   final String productId;
   final int rating;
   final String review;
   final String ratingId;
-
 }

@@ -25,7 +25,7 @@ class ReviewBloc extends Bloc<ReviewEvent, ReviewState> {
   Future<void> _getReviewsHandler(
       GetReviewsEvent event, Emitter<ReviewState> emit) async {
     emit(const GetReviewLoading());
-    final result = await _getReviews(event.productID);
+    final result = await _getReviews(event.productID, event.ratingCount);
     result.fold(
       (failure) => emit(ReviewError(failure.message)),
       (ratings) => emit(

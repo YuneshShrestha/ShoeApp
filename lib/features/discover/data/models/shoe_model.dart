@@ -29,7 +29,7 @@ class ShoeModel extends Shoe {
       numberOfReviews: int.parse((map['number_of_reviews'] ?? 0).toString()),
       price: int.parse((map['price'] ?? 0).toString()),
       productID: map['product_id'].toString(),
-      colorOptions: map['color_options']?.cast<String>() ?? [],
+      colorOptions:  List<Map<String, dynamic>>.from(map['color_options'] ?? []),
       sizeOptions: map['size_options']?.cast<String>() ?? [],
       description: map['description'].toString(),
     );
@@ -43,7 +43,7 @@ class ShoeModel extends Shoe {
     int? numberOfReviews,
     int? price,
     String? productID,
-    List<String>? colorOptions,
+    List<Map<String, dynamic>>? colorOptions,
     List<String>? sizeOptions,
     String? description,
   }) {

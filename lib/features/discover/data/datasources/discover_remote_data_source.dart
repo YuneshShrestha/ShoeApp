@@ -32,6 +32,7 @@ class DiscoverRemoteDataSourceImpl implements DiscoverRemoteDataSource {
         return ShoeModel.fromMap(shoe);
       }).toList();
     } catch (e) {
+      print(e.toString());
       throw CustomFirebaseException(
         message: e.toString(),
         code: 500,
