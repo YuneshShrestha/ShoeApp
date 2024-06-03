@@ -1,4 +1,5 @@
 // Service locator
+import 'package:dio/dio.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shoe_shop_app/features/discover/data/datasources/discover_remote_data_source.dart';
@@ -23,6 +24,6 @@ Future<void> init() async {
     ..registerLazySingleton<DiscoverRemoteDataSource>(
         () => DiscoverRemoteDataSourceImpl(sl()))
     ..registerLazySingleton(
-      () => FirebaseDatabase.instance,
+      () => Dio(),
     );
 }

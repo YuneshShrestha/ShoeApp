@@ -19,7 +19,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
     // _database = FirebaseDatabase.instance;
     getCategories();
 
-    getShoes();
+    // getShoes();
   }
 
   void getShoes() async {
@@ -34,7 +34,9 @@ class _DiscoverPageState extends State<DiscoverPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<DiscoverBloc, DiscoverState>(
+    return 
+
+    BlocConsumer<DiscoverBloc, DiscoverState>(
       listener: (context, state) {
         if (state is DiscoverError) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -58,13 +60,15 @@ class _DiscoverPageState extends State<DiscoverPage> {
               : state is CategoriesLoaded
                   ? Column(
                       children: [
-                        Text("Categories: ${state.categories[0]}"),
-                        Text("Shoes: ${shoes[0].name}"),
+                        // Text("Categories: ${state.categories[0]}"),
+                       Text(state.categories[0].name),
                       ],
                     )
                   : const SizedBox.shrink(),
         );
       },
     );
+  
+  
   }
 }
