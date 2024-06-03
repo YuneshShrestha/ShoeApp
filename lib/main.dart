@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoe_shop_app/core/services/injection_container.dart';
 import 'package:shoe_shop_app/features/discover/presentation/bloc/discover_bloc.dart';
-import 'package:shoe_shop_app/features/discover/presentation/view/discover_page.dart';
+import 'package:shoe_shop_app/features/review/presentation/bloc/review_bloc.dart';
+import 'package:shoe_shop_app/features/review/presentation/view/review_page.dart';
 import 'config/firebase_options.dart';
 
 void main() async {
@@ -19,8 +20,13 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => sl<DiscoverBloc>(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => sl<DiscoverBloc>(),
+        ),
+        BlocProvider(create: (context) => sl<ReviewBloc>()),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
@@ -28,7 +34,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const DiscoverPage(),
+        home: const ReviewPage(),
       ),
     );
   }

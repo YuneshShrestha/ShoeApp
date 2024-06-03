@@ -3,23 +3,21 @@ import 'package:shoe_shop_app/core/utils/api.dart';
 import 'package:shoe_shop_app/core/utils/constants.dart';
 import 'package:shoe_shop_app/features/discover/data/models/categories_model.dart';
 import 'package:shoe_shop_app/features/discover/data/models/shoe_model.dart';
-import 'package:dio/dio.dart';
-
 abstract class DiscoverRemoteDataSource {
   Future<List<ShoeModel>> getShoes();
   Future<List<CategoryModel>> getCategories();
+
 }
 
 class DiscoverRemoteDataSourceImpl implements DiscoverRemoteDataSource {
   DiscoverRemoteDataSourceImpl(
-    this._data,
   );
-  final Dio _data;
+  
 
   @override
   Future<List<ShoeModel>> getShoes() async {
     try {
-      final data = await _data.get(
+      final data = await API.dio.get(
         productEndpoint,
       );
       if (data.statusCode != 200 && data.statusCode != 201) {
