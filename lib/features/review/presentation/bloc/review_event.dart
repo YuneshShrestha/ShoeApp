@@ -21,11 +21,11 @@ class PostReviewsEvent extends ReviewEvent {
     required this.rating,
     required this.review,
     required this.ratingId,
-    required this.userId,
+
   });
   final String productId;
   final int rating;
   final String review;
   final String ratingId;
-  final String userId;
+
 }

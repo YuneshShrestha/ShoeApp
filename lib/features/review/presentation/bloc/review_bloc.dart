@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:shoe_shop_app/core/utils/auth.dart';
 import 'package:shoe_shop_app/features/review/domain/entities/rating.dart';
 import 'package:shoe_shop_app/features/review/domain/usecases/add_reviews.dart';
 import 'package:shoe_shop_app/features/review/domain/usecases/get_reviews.dart';
@@ -36,13 +37,23 @@ class ReviewBloc extends Bloc<ReviewEvent, ReviewState> {
   Future<void> _postReviewsHandler(
       PostReviewsEvent event, Emitter<ReviewState> emit) async {
     emit(const PostReviewLoading());
+    var isSignedIn = await Auth.isSignedIn();
+    var auth = await Auth.signInAnonymously();
+    if (auth == null) {
+      emit(const ReviewError('Failed to authenticate'));
+      return;
+    }
+    if (!isSignedIn) {
+      emit(const AnonymousSignIn());
+    }
+  
     final result = await _addRating(
       AddReviewParams(
         productId: event.productId,
         rating: event.rating,
         review: event.review,
         ratingId: event.ratingId,
-        userId: event.userId,
+        userId: auth.uid,
       ),
     );
     result.fold(

@@ -11,7 +11,10 @@ sealed class ReviewState extends Equatable {
 final class ReviewBlocInitial extends ReviewState {
   const ReviewBlocInitial();
 }
-
+// Ananymous class
+final class AnonymousSignIn extends ReviewState {
+  const AnonymousSignIn();
+}
 // Getting Review states
 
 final class GetReviewInitial extends ReviewState {
