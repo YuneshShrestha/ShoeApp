@@ -1,9 +1,11 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shoe_shop_app/features/discover/data/models/shoe_model.dart';
 import 'package:shoe_shop_app/features/discover/domain/entities/category.dart';
 import 'package:shoe_shop_app/features/discover/domain/entities/shoe.dart';
 import 'package:shoe_shop_app/features/discover/presentation/bloc/discover_bloc.dart';
+import 'package:shoe_shop_app/features/product_detail/presentation/product_detail.dart';
 import 'package:shoe_shop_app/features/review/data/datasources/review_remote_data_source.dart';
 
 class DiscoverPage extends StatefulWidget {
@@ -19,7 +21,6 @@ class _DiscoverPageState extends State<DiscoverPage> {
   void initState() {
     super.initState();
 
-
     // _database = FirebaseDatabase.instance;
     getCategories();
     getRatings();
@@ -28,13 +29,15 @@ class _DiscoverPageState extends State<DiscoverPage> {
     // getShoes();
   }
 
-  void getRatings() async{
+  void getRatings() async {
     final db = FirebaseDatabase.instance;
     await ReviewRemoteDataSourceImpl(db).getRatings("1", null);
   }
-  void addRating() async{
+
+  void addRating() async {
     final db = FirebaseDatabase.instance;
-    await ReviewRemoteDataSourceImpl(db).addRating(productId: '2', rating: 5, review: 'Good', ratingId: '1', userId: '1');
+    await ReviewRemoteDataSourceImpl(db).addRating(
+        productId: '2', rating: 5, review: 'Good', ratingId: '1', userId: '1');
   }
 
   void getShoes() async {
@@ -83,17 +86,38 @@ class _DiscoverPageState extends State<DiscoverPage> {
                   child: CircularProgressIndicator(),
                 )
               : state is CategoriesLoaded || state is ShoesLoaded
-                  ? Column(
-                      children: [
-                        // Text("Categories: ${state.categories[0]}"),
-
-                        Text("Shoes: ${filterByCategory("1")}"),
-
-                        // if (shoes.isNotEmpty)
-                        //   Text("Shoes: ${shoes[0].name}"),
-                        // if (shoes.isNotEmpty) Text("Shoes: ${Category[0].name}"),
-                      ],
-                    )
+                  ? ListView.builder(
+                      itemCount: shoes.length,
+                      itemBuilder: (ctx, index) {
+                        return InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (ctx) => ProductDetail(
+                                    shoe: ShoeModel(
+                                  productID: shoes[index].productID,
+                                  name: shoes[index].name,
+                                  description: shoes[index].description,
+                                  price: shoes[index].price,
+                                  categoryID: shoes[index].categoryID,
+                                  numberOfReviews: shoes[index].numberOfReviews,
+                                  avgRating: shoes[index].avgRating,
+                                  colorOptions: shoes[index].colorOptions,
+                                  imageUrl: shoes[index].imageUrl,
+                                  sizeOptions: shoes[index].sizeOptions,
+                                )),
+                              ),
+                            );
+                          },
+                          child: Card(
+                            child: ListTile(
+                              title: Text(shoes[index].name),
+                              subtitle:
+                                  Text(shoes[index].numberOfReviews.toString()),
+                            ),
+                          ),
+                        );
+                      })
                   : const SizedBox.shrink(),
         );
       },

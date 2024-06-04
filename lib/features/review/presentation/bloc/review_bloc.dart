@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:shoe_shop_app/core/utils/auth.dart';
+
 import 'package:shoe_shop_app/features/review/domain/entities/rating.dart';
 import 'package:shoe_shop_app/features/review/domain/usecases/add_reviews.dart';
 import 'package:shoe_shop_app/features/review/domain/usecases/get_reviews.dart';
@@ -39,6 +40,7 @@ class ReviewBloc extends Bloc<ReviewEvent, ReviewState> {
     emit(const PostReviewLoading());
     var isSignedIn = await Auth.isSignedIn();
     var auth = await Auth.signInAnonymously();
+
     if (auth == null) {
       emit(const ReviewError('Failed to authenticate'));
       return;
@@ -46,7 +48,8 @@ class ReviewBloc extends Bloc<ReviewEvent, ReviewState> {
     if (!isSignedIn) {
       emit(const AnonymousSignIn());
     }
-  
+    // check if user has already reviewed the product
+
     final result = await _addRating(
       AddReviewParams(
         productId: event.productId,
@@ -57,8 +60,12 @@ class ReviewBloc extends Bloc<ReviewEvent, ReviewState> {
       ),
     );
     result.fold(
-      (failure) => emit(ReviewError(failure.message)),
+      (failure) => emit(ReviewError(failure.message.contains("already rated")
+          ? "You have already rated this product"
+          : failure.message)),
       (categories) => emit(const PostReviewSuccess()),
     );
+    // Trigger get reviews again
+    add(GetReviewsEvent(event.productId, 1));
   }
 }

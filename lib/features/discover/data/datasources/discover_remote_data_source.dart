@@ -3,16 +3,14 @@ import 'package:shoe_shop_app/core/utils/api.dart';
 import 'package:shoe_shop_app/core/utils/constants.dart';
 import 'package:shoe_shop_app/features/discover/data/models/categories_model.dart';
 import 'package:shoe_shop_app/features/discover/data/models/shoe_model.dart';
+
 abstract class DiscoverRemoteDataSource {
   Future<List<ShoeModel>> getShoes();
   Future<List<CategoryModel>> getCategories();
-
 }
 
 class DiscoverRemoteDataSourceImpl implements DiscoverRemoteDataSource {
-  DiscoverRemoteDataSourceImpl(
-  );
-  
+  DiscoverRemoteDataSourceImpl();
 
   @override
   Future<List<ShoeModel>> getShoes() async {
@@ -26,13 +24,23 @@ class DiscoverRemoteDataSourceImpl implements DiscoverRemoteDataSource {
           code: data.statusCode,
         );
       }
-      
+      Map<String, dynamic> dataMap = {};
+      List<ShoeModel> shoes = [];
 
-      return (data.data['products'] as List).map<ShoeModel>((shoe) {
-        return ShoeModel.fromMap(shoe);
-      }).toList();
+      if (data.data['products'] is Map<String, dynamic>) {
+        dataMap.forEach((key, value) {
+          shoes.add(ShoeModel.fromMap(value));
+        });
+        return shoes;
+      } else  {
+      shoes=  (data.data['products'] as List).map<ShoeModel>(
+          (shoe) {
+          return ShoeModel.fromMap(shoe);
+          },
+        ).toList();
+        return shoes;
+      }
     } catch (e) {
-      print(e.toString());
       throw CustomFirebaseException(
         message: e.toString(),
         code: 500,
@@ -52,7 +60,6 @@ class DiscoverRemoteDataSourceImpl implements DiscoverRemoteDataSource {
           code: data.statusCode,
         );
       }
-      
 
       return (data.data['categories'] as List).map<CategoryModel>((category) {
         return CategoryModel.fromMap(category);

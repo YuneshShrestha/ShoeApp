@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:shoe_shop_app/core/error/failure.dart';
 import 'package:shoe_shop_app/features/discover/domain/usecases/get_categories.dart';
 import 'package:shoe_shop_app/features/discover/domain/usecases/get_shoes.dart';
 import 'package:shoe_shop_app/features/discover/presentation/bloc/discover_bloc.dart';
@@ -15,7 +14,7 @@ void main() {
   late GetShoes mockGetShoes;
   late GetCategories mockGetCategories;
   late DiscoverBloc bloc;
-  const firebaseFailure = FirebaseFailure("message", 400);
+  
 
   setUp(() {
     mockGetShoes = MockGetDiscoverShoes();

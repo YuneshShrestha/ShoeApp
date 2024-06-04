@@ -5,7 +5,6 @@ import 'package:shoe_shop_app/core/services/injection_container.dart';
 import 'package:shoe_shop_app/features/discover/presentation/bloc/discover_bloc.dart';
 import 'package:shoe_shop_app/features/discover/presentation/view/discover_page.dart';
 import 'package:shoe_shop_app/features/review/presentation/bloc/review_bloc.dart';
-import 'package:shoe_shop_app/features/review/presentation/view/review_page.dart';
 import 'config/firebase_options.dart';
 
 void main() async {
@@ -35,7 +34,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const ReviewPage(),
+        home: const DiscoverPage(),
       ),
     );
   }
