@@ -23,22 +23,21 @@ class _DiscoverPageState extends State<DiscoverPage> {
 
     // _database = FirebaseDatabase.instance;
     getCategories();
-    getRatings();
-    addRating();
+  
 
     // getShoes();
   }
 
-  void getRatings() async {
-    final db = FirebaseDatabase.instance;
-    await ReviewRemoteDataSourceImpl(db).getRatings("1", null);
-  }
+  // void getRatings() async {
+  //   final db = FirebaseDatabase.instance;
+  //   await ReviewRemoteDataSourceImpl(db).getRatings("1", null);
+  // }
 
-  void addRating() async {
-    final db = FirebaseDatabase.instance;
-    await ReviewRemoteDataSourceImpl(db).addRating(
-        productId: '2', rating: 5, review: 'Good', ratingId: '1', userId: '1');
-  }
+  // void addRating() async {
+  //   final db = FirebaseDatabase.instance;
+  //   await ReviewRemoteDataSourceImpl(db).addRating(
+  //       productId: '2', rating: 5, review: 'Good', ratingId: '1', userId: '1');
+  // }
 
   void getShoes() async {
     context.read<DiscoverBloc>().add(const GetShoesEvent());

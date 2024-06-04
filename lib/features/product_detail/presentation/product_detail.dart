@@ -26,6 +26,7 @@ class _ProductDetailState extends State<ProductDetail> {
       shoe = shoe.copyWith(numberOfReviews: shoe.numberOfReviews + 1);
     });
   }
+
   void getShoes() async {
     context.read<DiscoverBloc>().add(const GetShoesEvent());
   }
@@ -35,6 +36,12 @@ class _ProductDetailState extends State<ProductDetail> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Product Detail'),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.shopping_bag_outlined),
+          ),
+        ],
       ),
       body: BlocConsumer<ReviewBloc, ReviewState>(
         listener: (context, state) {
@@ -89,6 +96,18 @@ class _ProductDetailState extends State<ProductDetail> {
             ],
           );
         },
+      ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          FloatingActionButton.extended(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            label: const Text('Add To Cart'),
+            icon: const Icon(Icons.add_shopping_cart_outlined),
+          ),
+        ],
       ),
     );
   }
