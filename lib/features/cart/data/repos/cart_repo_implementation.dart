@@ -8,8 +8,8 @@ import 'package:shoe_shop_app/features/cart/data/models/cart_model.dart';
 import 'package:shoe_shop_app/features/cart/domain/entities/cart.dart';
 import 'package:shoe_shop_app/features/cart/domain/repos/cart_repo.dart';
 
-class CartepoImplementation implements CartRepo {
-  CartepoImplementation(
+class CartRepoImplementation implements CartRepo {
+  CartRepoImplementation(
     this._remoteDataSource,
   );
   final CartRemoteDataSource _remoteDataSource;
@@ -104,9 +104,10 @@ class CartepoImplementation implements CartRepo {
       );
     }
   }
-  
+
   @override
-  ResultFutureVoid updateCartQuantity({required int quantity, required String shoeId}) async{
+  ResultFutureVoid updateCartQuantity(
+      {required int quantity, required String shoeId}) async {
     try {
       await _remoteDataSource.updateCartItem(quantity, shoeId);
       return const Right(null);
@@ -119,5 +120,4 @@ class CartepoImplementation implements CartRepo {
       );
     }
   }
- 
 }

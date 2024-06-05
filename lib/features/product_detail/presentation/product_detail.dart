@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shoe_shop_app/features/cart/domain/entities/cart.dart';
+import 'package:shoe_shop_app/features/cart/presentation/bloc/cart_bloc.dart';
+import 'package:shoe_shop_app/features/cart/presentation/view/cart_page.dart';
 import 'package:shoe_shop_app/features/discover/data/models/shoe_model.dart';
 import 'package:shoe_shop_app/features/discover/presentation/bloc/discover_bloc.dart';
 
@@ -38,7 +41,16 @@ class _ProductDetailState extends State<ProductDetail> {
         title: const Text('Product Detail'),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => BlocProvider.value(
+                    value: context.read<CartBloc>(),
+                    child: const CartPage(),
+                  ),
+                ),
+              );
+            },
             icon: const Icon(Icons.shopping_bag_outlined),
           ),
         ],
@@ -102,8 +114,22 @@ class _ProductDetailState extends State<ProductDetail> {
         children: [
           FloatingActionButton.extended(
             onPressed: () {
-              Navigator.of(context).pop();
+              context.read<CartBloc>().add(
+                    AddToCartEvent(
+                      CartItem(
+                        shoeImage: shoe.imageUrl,
+                        shoeName: shoe.name,
+                        shoeCategory: shoe.categoryID,
+                        shoeSize: int.parse(shoe.sizeOptions[0].toString()),
+                        shoeColor: shoe.colorOptions[0]['color'],
+                        shoeId: shoe.productID,
+                        quantity: 1,
+                      ),
+                    ),
+                  );
+              context.read<CartBloc>().add(const GetCartEvent());
             },
+
             label: const Text('Add To Cart'),
             icon: const Icon(Icons.add_shopping_cart_outlined),
           ),
