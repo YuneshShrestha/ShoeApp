@@ -85,7 +85,21 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
 
   @override
   Future<List<CartModel>> getCartItems() async {
-    return _cartItems;
+    final List<CartModel> cartItems =
+        List.from(_cartItems); // Create a copy of _cartItems
+
+    // if repeated items are found, combine them
+    // List<CartModel> cartItemsCopy = List.from(cartItems); // Create a copy of cartItems
+    // for (var element in cartItemsCopy) {
+    //   int index = cartItems.indexWhere((item) => item.shoeId == element.shoeId);
+    //   if (index != -1) {
+    //     cartItems[index] = cartItems[index].copywith(
+    //       quantity: cartItems[index].quantity + 1,
+    //     );
+    //     cartItems.removeWhere((item) => item.shoeId == element.shoeId);
+    //   }
+    // }
+    return cartItems;
   }
 
   @override

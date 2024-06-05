@@ -44,10 +44,9 @@ class _ProductDetailState extends State<ProductDetail> {
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => BlocProvider.value(
-                    value: context.read<CartBloc>(),
-                    child: const CartPage(),
-                  ),
+                  builder: (context) => 
+                  const CartPage(),
+                
                 ),
               );
             },
@@ -112,26 +111,32 @@ class _ProductDetailState extends State<ProductDetail> {
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          FloatingActionButton.extended(
-            onPressed: () {
-              context.read<CartBloc>().add(
-                    AddToCartEvent(
-                      CartItem(
-                        shoeImage: shoe.imageUrl,
-                        shoeName: shoe.name,
-                        shoeCategory: shoe.categoryID,
-                        shoeSize: int.parse(shoe.sizeOptions[0].toString()),
-                        shoeColor: shoe.colorOptions[0]['color'],
-                        shoeId: shoe.productID,
-                        quantity: 1,
-                      ),
-                    ),
-                  );
-              context.read<CartBloc>().add(const GetCartEvent());
+          BlocConsumer<CartBloc, CartState>(
+            listener: (context, state) {
+              print(state.runtimeType);
             },
-
-            label: const Text('Add To Cart'),
-            icon: const Icon(Icons.add_shopping_cart_outlined),
+            builder: (context, state) {
+            
+              return FloatingActionButton.extended(
+                onPressed: () {
+                  context.read<CartBloc>().add(
+                        AddToCartEvent(
+                          CartItem(
+                            shoeImage: shoe.imageUrl,
+                            shoeName: shoe.name,
+                            shoeCategory: shoe.categoryID,
+                            shoeSize: int.parse(shoe.sizeOptions[0].toString()),
+                            shoeColor: shoe.colorOptions[0]['color'],
+                            shoeId: shoe.productID,
+                            quantity: 1,
+                          ),
+                        ),
+                      );
+                },
+                label: const Text('Add To Cart'),
+                icon: const Icon(Icons.add_shopping_cart_outlined),
+              );
+            },
           ),
         ],
       ),

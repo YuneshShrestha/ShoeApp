@@ -2,8 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoe_shop_app/features/cart/presentation/bloc/cart_bloc.dart';
 
-class CartPage extends StatelessWidget {
+class CartPage extends StatefulWidget {
   const CartPage({super.key});
+
+  @override
+  State<CartPage> createState() => _CartPageState();
+}
+
+class _CartPageState extends State<CartPage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<CartBloc>().add(const GetCartEvent());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +25,8 @@ class CartPage extends StatelessWidget {
       body: BlocConsumer<CartBloc, CartState>(
         listener: (context, state) {},
         builder: (context, state) {
-          print(state.runtimeType);
+  
+
           if (state is CartLoading) {
             return const Center(
               child: CircularProgressIndicator(),

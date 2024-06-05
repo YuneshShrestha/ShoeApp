@@ -85,6 +85,30 @@ class CartRepoImplementation implements CartRepo {
       required int quantity,
       required String shoeImage}) async {
     try {
+      if (quantity == 0) {
+        return const Left(FirebaseFailure('Quantity cannot be zero', 400));
+      } else if (quantity < 0) {
+        return const Left(FirebaseFailure('Quantity cannot be negative', 400));
+      }
+
+      // get the cart items if they exist  update the quantity of the item
+      final cartItems = await getCart();
+      bool isItemExist = false;
+      cartItems.fold((l) => null, (r) {
+        for (var item in r) {
+          if (item.shoeId == shoeId) {
+            isItemExist = true;
+            break;
+          }
+        }
+      });
+      if (isItemExist) {
+        //  Update the quantity of the item
+        await updateCartQuantity(quantity: quantity, shoeId: shoeId);
+
+        return const Right(null);
+      }
+
       final cartItem = CartModel(
           shoeId: shoeId,
           shoeName: shoeName,
@@ -109,7 +133,7 @@ class CartRepoImplementation implements CartRepo {
   ResultFutureVoid updateCartQuantity(
       {required int quantity, required String shoeId}) async {
     try {
-      await _remoteDataSource.updateCartItem(quantity, shoeId);
+      await _remoteDataSource.updateCartItem(quantity++, shoeId);
       return const Right(null);
     } on CustomFirebaseException catch (e) {
       return Left(

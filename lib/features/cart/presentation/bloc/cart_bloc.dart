@@ -35,6 +35,9 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   Future<void> _addToCartHandler(
       AddToCartEvent event, Emitter<CartState> emit) async {
     emit(const CartLoading());
+    
+
+  
     final result = await _addToCart(CartItem(
       shoeImage: event.cart.shoeImage,
       shoeName: event.cart.shoeName,
@@ -44,6 +47,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       shoeId: event.cart.shoeId,
       quantity: event.cart.quantity,
     ));
+
     result.fold(
       (failure) => emit(CartError(failure.message)),
       (cart) => emit(
