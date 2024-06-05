@@ -46,6 +46,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       shoeColor: event.cart.shoeColor,
       shoeId: event.cart.shoeId,
       quantity: event.cart.quantity,
+      price: event.cart.price,
     ));
 
     result.fold(

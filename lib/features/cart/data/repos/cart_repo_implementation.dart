@@ -29,6 +29,7 @@ class CartRepoImplementation implements CartRepo {
             shoeColor: element.shoeColor,
             quantity: element.quantity,
             shoeImage: element.shoeImage,
+            price: element.price,
           ),
         );
       }
@@ -83,7 +84,9 @@ class CartRepoImplementation implements CartRepo {
       required int shoeSize,
       required String shoeColor,
       required int quantity,
-      required String shoeImage}) async {
+      required String shoeImage,
+      required int price
+      }) async {
     try {
       if (quantity == 0) {
         return const Left(FirebaseFailure('Quantity cannot be zero', 400));
@@ -116,7 +119,9 @@ class CartRepoImplementation implements CartRepo {
           shoeSize: shoeSize,
           shoeColor: shoeColor,
           quantity: quantity,
-          shoeImage: shoeImage);
+          shoeImage: shoeImage,
+          price: price,
+          );
       await _remoteDataSource.postCartItems(cartItem);
       return const Right(null);
     } on CustomFirebaseException catch (e) {

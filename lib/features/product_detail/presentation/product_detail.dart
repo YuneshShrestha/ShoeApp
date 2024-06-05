@@ -122,6 +122,7 @@ class _ProductDetailState extends State<ProductDetail> {
                   context.read<CartBloc>().add(
                         AddToCartEvent(
                           CartItem(
+                            price: shoe.price,
                             shoeImage: shoe.imageUrl,
                             shoeName: shoe.name,
                             shoeCategory: shoe.categoryID,

@@ -17,6 +17,7 @@ class PostCart extends UseCaseWithParam<void, CartItem> {
       shoeColor: param.shoeColor,
       quantity: param.quantity,
       shoeImage: param.shoeImage,
+      price: param.price,
 
     );
   }

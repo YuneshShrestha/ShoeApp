@@ -7,6 +7,7 @@ class CartItem extends Equatable {
     final int shoeSize;
     final String shoeColor;
     final int quantity;
+    final int price;
     final String shoeId;
   const CartItem.empty()
       : shoeImage = '',
@@ -15,7 +16,9 @@ class CartItem extends Equatable {
         shoeSize = 0,
         shoeColor = '',
         shoeId = '',
-        quantity = 0;
+        quantity = 0,
+        price = 0;
+
 
   const CartItem({
     required this.shoeImage,
@@ -25,6 +28,7 @@ class CartItem extends Equatable {
     required this.shoeColor,
     required this.shoeId,
     required this.quantity,
+    required this.price,
   });
 
   @override
@@ -35,5 +39,6 @@ class CartItem extends Equatable {
         shoeSize,
         shoeColor,
         quantity,
+        price,
       ];
 }

@@ -12,6 +12,7 @@ abstract class CartRepo {
       required int shoeSize,
       required String shoeColor,
       required int quantity,
+      required int price,
     }
   );
   ResultFutureVoid updateCartQuantity(

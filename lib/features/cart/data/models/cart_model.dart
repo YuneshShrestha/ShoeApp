@@ -6,7 +6,7 @@ import 'package:shoe_shop_app/features/cart/domain/entities/cart.dart';
 class CartModel extends CartItem {
   const CartModel({
  
-   required super.shoeImage, required super.shoeName, required super.shoeCategory, required super.shoeSize, required super.shoeColor, required super.shoeId, required super.quantity});
+   required super.shoeImage, required super.shoeName, required super.shoeCategory, required super.shoeSize, required super.shoeColor, required super.shoeId, required super.quantity, required super.price});
 
   const CartModel.empty() : super.empty();
 
@@ -19,6 +19,7 @@ class CartModel extends CartItem {
       'shoeColor': shoeColor,
       'shoeId': shoeId,
       'quantity': quantity,
+      'price': price,
     };
   }
 
@@ -32,6 +33,7 @@ class CartModel extends CartItem {
     String? shoeColor,
     String? shoeId,
     int? quantity,
+    int? price,
   }) {
     return CartModel(
       shoeImage: shoeImage ?? this.shoeImage,
@@ -41,6 +43,7 @@ class CartModel extends CartItem {
       shoeColor: shoeColor ?? this.shoeColor,
       shoeId: shoeId ?? this.shoeId,
       quantity: quantity ?? this.quantity,
+      price: price ?? this.price,
     );
   }
 }
