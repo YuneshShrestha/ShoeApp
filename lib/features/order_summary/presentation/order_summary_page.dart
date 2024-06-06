@@ -9,7 +9,7 @@ class OrderSummaryPage extends StatelessWidget {
   const OrderSummaryPage({super.key, required this.cartItems});
 
   final List<CartItem> cartItems;
-
+  static const routeName = '/order';
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shoe_shop_app/app/router.dart';
 import 'package:shoe_shop_app/core/services/injection_container.dart';
 import 'package:shoe_shop_app/features/cart/presentation/bloc/cart_bloc.dart';
 import 'package:shoe_shop_app/features/discover/presentation/bloc/discover_bloc.dart';
@@ -36,7 +37,8 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const DiscoverPage(),
+        onGenerateRoute: AppRoutes.generateRoute,
+        initialRoute: DiscoverPage.routeName,
       ),
     );
   }

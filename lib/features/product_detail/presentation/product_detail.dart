@@ -12,6 +12,8 @@ class ProductDetail extends StatefulWidget {
   const ProductDetail({super.key, required this.shoe});
   final ShoeModel shoe;
 
+  static const routeName = '/product_detail';
+
   @override
   State<ProductDetail> createState() => _ProductDetailState();
 }
@@ -42,13 +44,7 @@ class _ProductDetailState extends State<ProductDetail> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => 
-                  const CartPage(),
-                
-                ),
-              );
+              Navigator.pushNamed(context, CartPage.routeName);
             },
             icon: const Icon(Icons.shopping_bag_outlined),
           ),
@@ -79,7 +75,7 @@ class _ProductDetailState extends State<ProductDetail> {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          }
+          } else if (state is GetReviewLoaded) {}
 
           return Column(
             children: [
@@ -113,10 +109,15 @@ class _ProductDetailState extends State<ProductDetail> {
         children: [
           BlocConsumer<CartBloc, CartState>(
             listener: (context, state) {
-              print(state.runtimeType);
+              if (state is CartError) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(state.message),
+                  ),
+                );
+              }
             },
             builder: (context, state) {
-            
               return FloatingActionButton.extended(
                 onPressed: () {
                   context.read<CartBloc>().add(

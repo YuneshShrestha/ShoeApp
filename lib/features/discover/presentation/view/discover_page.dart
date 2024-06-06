@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shoe_shop_app/features/discover/data/models/shoe_model.dart';
+
 import 'package:shoe_shop_app/features/discover/domain/entities/category.dart';
 import 'package:shoe_shop_app/features/discover/domain/entities/shoe.dart';
 import 'package:shoe_shop_app/features/discover/presentation/bloc/discover_bloc.dart';
@@ -8,6 +8,7 @@ import 'package:shoe_shop_app/features/product_detail/presentation/product_detai
 
 class DiscoverPage extends StatefulWidget {
   const DiscoverPage({super.key});
+  static const routeName = '/';
 
   @override
   State<DiscoverPage> createState() => _DiscoverPageState();
@@ -88,23 +89,11 @@ class _DiscoverPageState extends State<DiscoverPage> {
                       itemBuilder: (ctx, index) {
                         return InkWell(
                           onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (ctx) => ProductDetail(
-                                    shoe: ShoeModel(
-                                  productID: shoes[index].productID,
-                                  name: shoes[index].name,
-                                  description: shoes[index].description,
-                                  price: shoes[index].price,
-                                  categoryID: shoes[index].categoryID,
-                                  numberOfReviews: shoes[index].numberOfReviews,
-                                  avgRating: shoes[index].avgRating,
-                                  colorOptions: shoes[index].colorOptions,
-                                  imageUrl: shoes[index].imageUrl,
-                                  sizeOptions: shoes[index].sizeOptions,
-                                )),
-                              ),
+                            Navigator.of(context).pushNamed(
+                              ProductDetail.routeName,
+                              arguments: shoes[index],
                             );
+                           
                           },
                           child: Card(
                             child: ListTile(
