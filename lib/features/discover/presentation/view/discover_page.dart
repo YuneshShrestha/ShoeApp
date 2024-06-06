@@ -22,7 +22,6 @@ class _DiscoverPageState extends State<DiscoverPage> {
 
     // _database = FirebaseDatabase.instance;
     getCategories();
-  
 
     // getShoes();
   }
@@ -48,10 +47,18 @@ class _DiscoverPageState extends State<DiscoverPage> {
 
   List<Category> categories = [];
   List<Shoe> shoes = [];
+  List<Shoe> _shoeCopy = [];
 
-  List<Shoe> filterByCategory(String categoryID) {
-    return shoes.where((shoe) => shoe.categoryID == categoryID).toList();
+  List<Shoe> filterByCategory(String? categoryID) {
+    if (categoryID == null) {
+      return _shoeCopy;
+    }
+    return _shoeCopy
+        .where((element) => element.categoryID == categoryID)
+        .toList();
   }
+
+  int selectedCategory = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -72,38 +79,183 @@ class _DiscoverPageState extends State<DiscoverPage> {
         }
         if (state is ShoesLoaded) {
           shoes = state.shoes;
+          _shoeCopy = List.from(shoes);
         }
       },
       builder: (context, state) {
-        return Scaffold(
-          appBar: AppBar(
-            title: const Text('Discover'),
+        final appBar = AppBar(
+          title: const Text(
+            'Discover',
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
           ),
+          actions: [
+            IconButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed('/cart');
+              },
+              icon: Image.asset('assets/logo/bag-2.png'),
+            ),
+          ],
+        );
+        return Scaffold(
+          appBar: appBar,
           body: state is DiscoverLoading
               ? const Center(
                   child: CircularProgressIndicator(),
                 )
               : state is CategoriesLoaded || state is ShoesLoaded
-                  ? ListView.builder(
-                      itemCount: shoes.length,
-                      itemBuilder: (ctx, index) {
-                        return InkWell(
-                          onTap: () {
-                            Navigator.of(context).pushNamed(
-                              ProductDetail.routeName,
-                              arguments: shoes[index],
-                            );
-                           
-                          },
-                          child: Card(
-                            child: ListTile(
-                              title: Text(shoes[index].name),
-                              subtitle:
-                                  Text(shoes[index].numberOfReviews.toString()),
+                  ? SizedBox(
+                      height: MediaQuery.of(context).size.height -
+                          appBar.preferredSize.height -
+                          MediaQuery.of(context).padding.top -
+                          20,
+                      child: Column(
+                        children: [
+                          Flexible(
+                            flex: 2,
+                            child: ListView(
+                              scrollDirection: Axis.horizontal,
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.of(context).pushNamed(
+                                      ProductDetail.routeName,
+                                      arguments: categories[0],
+                                    );
+                                  },
+                                  child: TextButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        selectedCategory = 0;
+
+                                        shoes = filterByCategory(null);
+                                      });
+                                    },
+                                    child: Text(
+                                      'All',
+                                      style: TextStyle(
+                                        color: selectedCategory == 0
+                                            ? Colors.black
+                                            : Colors.grey[500],
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                ...categories.map(
+                                  (category) => TextButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        selectedCategory =
+                                            categories.indexWhere((element) =>
+                                                    element.id == category.id) +
+                                                1;
+                                        shoes = filterByCategory(category.id);
+                                      });
+                                    },
+                                    child: Text(
+                                      category.name,
+                                      style: TextStyle(
+                                        color: selectedCategory ==
+                                                categories.indexWhere(
+                                                        (element) =>
+                                                            element.id ==
+                                                            category.id) +
+                                                    1
+                                            ? Colors.black
+                                            : Colors.grey[500],
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
                             ),
                           ),
-                        );
-                      })
+                          const SizedBox(height: 20),
+                          Flexible(
+                            flex: 20,
+                            child: GridView.builder(
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                childAspectRatio: 0.7,
+                              ),
+                              itemCount: shoes.length,
+                              itemBuilder: (context, index) {
+                                final shoe = shoes[index];
+
+                                return InkWell(
+                                  onTap: () {
+                                    Navigator.of(context).pushNamed(
+                                      ProductDetail.routeName,
+                                      arguments: shoe,
+                                    );
+                                  },
+                                  child: Container(
+                                    margin: const EdgeInsets.all(10),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          height: 180,
+                                          width: 200,
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey[200],
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                        ),
+                                        Text(
+                                          shoe.name,
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                        Row(
+                                          children: [
+                                            const Icon(
+                                              Icons.star,
+                                              color: Colors.yellow,
+                                            ),
+                                            Text(
+                                              shoe.avgRating.toString(),
+                                              style: const TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                            Text(
+                                              '| ${shoe.numberOfReviews} Reviews',
+                                              style: const TextStyle(
+                                                fontSize: 12,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Text(
+                                          '\$${shoe.price}',
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
                   : const SizedBox.shrink(),
         );
       },

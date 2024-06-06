@@ -7,6 +7,7 @@ import 'package:shoe_shop_app/features/cart/presentation/bloc/cart_bloc.dart';
 import 'package:shoe_shop_app/features/discover/presentation/bloc/discover_bloc.dart';
 import 'package:shoe_shop_app/features/discover/presentation/view/discover_page.dart';
 import 'package:shoe_shop_app/features/review/presentation/bloc/review_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'config/firebase_options.dart';
 
 void main() async {
@@ -36,6 +37,9 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
+          textTheme: GoogleFonts.latoTextTheme(
+            Theme.of(context).textTheme,
+          ),
         ),
         onGenerateRoute: AppRoutes.generateRoute,
         initialRoute: DiscoverPage.routeName,
