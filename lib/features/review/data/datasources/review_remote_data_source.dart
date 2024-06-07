@@ -28,6 +28,23 @@ class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
       required String userId}) async {
     try {
       final ref = _real.ref().child('rating').child('ratings');
+      final userRatingData =
+          await ref.orderByChild("product_id").equalTo(productId).once();
+      bool userHasRated = false;
+      for (int i = 0; i < userRatingData.snapshot.children.length; i++) {
+        final rating = userRatingData.snapshot.children.elementAt(i).value
+            as Map<Object?, Object?>;
+        if (rating['user_id'] == userId) {
+          userHasRated = true;
+          break;
+        }
+      }
+      if (userHasRated) {
+        throw const CustomFirebaseException(
+          message: 'User has already rated this product',
+          code: 400,
+        );
+      }
       await ref.push().set({
         'product_id': productId,
         'rating': rating,
@@ -44,36 +61,19 @@ class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
       //     .once();
       // print("Rating: ${userRatingData.snapshot.value}");
       // increase shoe rating count
-      final userRatingData = await ref
-        .orderByChild("product_id")
-        .equalTo(productId)
-        .once();
-      bool userHasRated = false;
-      for (int i = 0; i < userRatingData.snapshot.children.length; i++) {
-        final rating = userRatingData.snapshot.children.elementAt(i).value as Map<Object?, Object?>;
-        if (rating['user_id'] == userId) {
-          userHasRated = true;
-          break;
-        }
-      }
-      if (userHasRated) {
-        throw const CustomFirebaseException(
-          message: 'User has already rated this product',
-          code: 400,
-        );
-      }
+
       final productRef = _real.ref().child('product').child('products');
       final productData =
           await productRef.orderByChild("product_id").equalTo(productId).once();
       Map<Object?, Object?> fetchedProductMap = {};
-    
+
       if (productData.snapshot.value is List<Object?>) {
         if ((productData.snapshot.value as List<Object?>)[0] == null) {
           fetchedProductMap = (productData.snapshot.value as List<Object?>)[1]
               as Map<Object?, Object?>;
         } else {
-           fetchedProductMap = (productData.snapshot.value as List<Object?>)[0]
-            as Map<Object?, Object?>;
+          fetchedProductMap = (productData.snapshot.value as List<Object?>)[0]
+              as Map<Object?, Object?>;
         }
       } else {
         fetchedProductMap = ((productData.snapshot.value as Map<Object?,
@@ -87,7 +87,6 @@ class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
       });
       final ratingCount = productMap['number_of_reviews'] as int;
 
-    
       if (productData.snapshot.key == null) {
         throw const CustomFirebaseException(
           message: 'Product not found',
@@ -130,7 +129,7 @@ class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
         rating.forEach((key, value) {
           shoeMap[key.toString()] = value;
         });
-        
+
         ratings.add(RatingModel.fromMap(shoeMap));
       }
       return ratings;

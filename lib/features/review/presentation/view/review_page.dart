@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoe_shop_app/core/utils/constants.dart';
+import 'package:shoe_shop_app/features/discover/presentation/widgets/custom_black_button.dart';
 import 'package:shoe_shop_app/features/review/domain/entities/rating.dart';
 import 'package:shoe_shop_app/features/review/presentation/bloc/review_bloc.dart';
 import 'package:shoe_shop_app/features/review/presentation/widgets/rating_widget.dart';
@@ -196,8 +197,8 @@ class _ReviewPageState extends State<ReviewPage> {
                                           review: ratings[index]);
                                     }),
                               )),
-
-                          ElevatedButton(
+                          customBlackButton(
+                            text: "ADD REVIEW",
                             onPressed: () {
                               context.read<ReviewBloc>().add(
                                     PostReviewsEvent(
@@ -208,7 +209,6 @@ class _ReviewPageState extends State<ReviewPage> {
                                     ),
                                   );
                             },
-                            child: const Text('Add Review'),
                           ),
                         ],
                       ),

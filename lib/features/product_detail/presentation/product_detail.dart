@@ -7,6 +7,7 @@ import 'package:shoe_shop_app/features/cart/presentation/bloc/cart_bloc.dart';
 import 'package:shoe_shop_app/features/cart/presentation/view/cart_page.dart';
 import 'package:shoe_shop_app/features/discover/data/models/shoe_model.dart';
 import 'package:shoe_shop_app/features/discover/presentation/bloc/discover_bloc.dart';
+import 'package:shoe_shop_app/features/discover/presentation/widgets/custom_black_button.dart';
 import 'package:shoe_shop_app/features/review/domain/entities/rating.dart';
 
 import 'package:shoe_shop_app/features/review/presentation/bloc/review_bloc.dart';
@@ -297,34 +298,28 @@ class _ProductDetailState extends State<ProductDetail> {
                           ),
                         ],
                       ),
-                      ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(
-                            Colors.black,
-                          ),
-                        ),
-                        onPressed: () {
-                          context.read<CartBloc>().add(
-                                AddToCartEvent(
-                                  CartItem(
-                                    price: shoe.price,
-                                    shoeImage: shoe.imageUrl,
-                                    shoeName: shoe.name,
-                                    shoeCategory: shoe.categoryID,
-                                    shoeSize: int.parse(
-                                        shoe.sizeOptions[0].toString()),
-                                    shoeColor: shoe.colorOptions[0]['color'],
-                                    shoeId: shoe.productID,
-                                    quantity: 1,
-                                  ),
-                                ),
-                              );
-                        },
-                        child: const Text(
-                          'ADD TO CART',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
+                      customBlackButton(
+                          text: "ADD TO CART",
+                          onPressed: () {
+                            {
+                              context.read<CartBloc>().add(
+                                    AddToCartEvent(
+                                      CartItem(
+                                        price: shoe.price,
+                                        shoeImage: shoe.imageUrl,
+                                        shoeName: shoe.name,
+                                        shoeCategory: shoe.categoryID,
+                                        shoeSize: int.parse(
+                                            shoe.sizeOptions[0].toString()),
+                                        shoeColor: shoe.colorOptions[0]
+                                            ['color'],
+                                        shoeId: shoe.productID,
+                                        quantity: 1,
+                                      ),
+                                    ),
+                                  );
+                            }
+                          }),
                     ],
                   ),
                 ),
