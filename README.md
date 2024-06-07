@@ -18,9 +18,16 @@ This is a Flutter project for a shoe shop application.
 - Challenge 1: On the 5th day of development, Firebase was intermittently returning a List and a Map.
   - Solution: I used if else check if it is List or a Map to parse the data.
 
+- Challenge 2: I don't have access to Firebase Blaze to run the Functions automatically
+  - Solution: I have handled calculating the average rating at UI.
+
 ## Additional Features and Improvements
 
 - Feature 1: Anaymous login
+
+## Problems
+
+- Due to tide schedule in this week I could not complete the whole UI part but I have completed all of the functionality. I am extremely sorry for incovinence.
 
 ## Resources
 
