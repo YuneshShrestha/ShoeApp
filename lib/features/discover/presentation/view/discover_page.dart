@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:shoe_shop_app/features/discover/domain/entities/category.dart';
@@ -176,12 +178,13 @@ class _DiscoverPageState extends State<DiscoverPage> {
                               ],
                             ),
                           ),
-                         
-                         
                           vGap,
                           Flexible(
                             flex: 20,
                             child: GridView.builder(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                              ),
                               gridDelegate:
                                   const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
@@ -204,49 +207,66 @@ class _DiscoverPageState extends State<DiscoverPage> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Container(
-                                          height: 180,
-                                          width: 200,
-                                          decoration: BoxDecoration(
-                                            color: Colors.grey[200],
-                                            borderRadius:
-                                                BorderRadius.circular(10),
+                                        Flexible(
+                                          flex: 10,
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: Colors.grey[200],
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
                                           ),
                                         ),
-                                        Text(
-                                          shoe.name,
-                                          style: const TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500,
-                                            overflow: TextOverflow.ellipsis,
+                                        Flexible(
+                                          flex: 2,
+                                          child: Text(
+                                            shoe.name,
+                                            style: const TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
                                           ),
                                         ),
-                                        Row(
-                                          children: [
-                                            const Icon(
-                                              Icons.star,
-                                              color: Colors.yellow,
-                                            ),
-                                            Text(
-                                              shoe.avgRating.toString(),
-                                              style: const TextStyle(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w500,
+                                        Flexible(
+                                          flex: 2,
+                                          child: Row(
+                                            children: [
+                                              const Flexible(
+                                                child: Icon(
+                                                  Icons.star,
+                                                  color: Colors.yellow,
+                                                ),
                                               ),
-                                            ),
-                                            Text(
-                                              '| ${shoe.numberOfReviews} Reviews',
-                                              style: const TextStyle(
-                                                fontSize: 12,
+                                              Flexible(
+                                                child: Text(
+                                                  shoe.avgRating.toString(),
+                                                  style: const TextStyle(
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                ),
                                               ),
-                                            ),
-                                          ],
+                                              Flexible(
+                                                flex: 2,
+                                                child: Text(
+                                                  '| ${shoe.numberOfReviews} Reviews',
+                                                  style: const TextStyle(
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                        Text(
-                                          '\$${shoe.price}',
-                                          style: const TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500,
+                                        Flexible(
+                                          flex: 2,
+                                          child: Text(
+                                            '\$${shoe.price}',
+                                            style: const TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500,
+                                            ),
                                           ),
                                         ),
                                       ],

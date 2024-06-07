@@ -5,4 +5,5 @@ const String ratingEndpoint = 'rating.json';
 
 // Page Decoration
 const double pagePadding = 20.0;
+const double cardPadding = 30.0;
 

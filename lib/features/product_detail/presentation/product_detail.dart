@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shoe_shop_app/features/cart/domain/entities/cart.dart';
-import 'package:shoe_shop_app/features/cart/presentation/bloc/cart_bloc.dart';
+import 'package:shoe_shop_app/core/utils/constants.dart';
+
 import 'package:shoe_shop_app/features/cart/presentation/view/cart_page.dart';
 import 'package:shoe_shop_app/features/discover/data/models/shoe_model.dart';
 import 'package:shoe_shop_app/features/discover/presentation/bloc/discover_bloc.dart';
@@ -50,6 +50,7 @@ class _ProductDetailState extends State<ProductDetail> {
 
   var vgap = const SizedBox(height: 30);
   var widgetGap = const SizedBox(height: 10);
+  var cardWidgetGap = const SizedBox(height: cardPadding);
 
   @override
   Widget build(BuildContext context) {
@@ -302,22 +303,93 @@ class _ProductDetailState extends State<ProductDetail> {
                           text: "ADD TO CART",
                           onPressed: () {
                             {
-                              context.read<CartBloc>().add(
-                                    AddToCartEvent(
-                                      CartItem(
-                                        price: shoe.price,
-                                        shoeImage: shoe.imageUrl,
-                                        shoeName: shoe.name,
-                                        shoeCategory: shoe.categoryID,
-                                        shoeSize: int.parse(
-                                            shoe.sizeOptions[0].toString()),
-                                        shoeColor: shoe.colorOptions[0]
-                                            ['color'],
-                                        shoeId: shoe.productID,
-                                        quantity: 1,
+                              showModalBottomSheet(
+                                  context: context,
+                                  builder: (context) {
+                                    return Container(
+                                      decoration: const BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(40),
+                                          topRight: Radius.circular(40),
+                                        ),
                                       ),
-                                    ),
-                                  );
+                                      width: MediaQuery.of(context).size.width,
+                                      height: 300,
+                                      padding: const EdgeInsets.all(
+                                        cardPadding,
+                                      ),
+                                      child: SingleChildScrollView(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Image.asset(
+                                              'assets/logo/tick-circle.png',
+                                              width: 100,
+                                              height: 100,
+                                            ),
+                                            cardWidgetGap,
+                                            const Text(
+                                              'Added to cart',
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            cardWidgetGap,
+                                            const Text(
+                                              '1 item Total',
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w200,
+                                                color: Colors.black45,
+                                              ),
+                                            ),
+                                            cardWidgetGap,
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                customOutlineButton(
+                                                  text: 'BACK EXPLORE',
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                ),
+                                                const SizedBox(
+                                                  width: 20,
+                                                ),
+                                                customBlackButton(
+                                                  text: 'TO CART',
+                                                  onPressed: () {
+                                                    Navigator.pushNamed(context,
+                                                        CartPage.routeName);
+                                                  },
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  });
+                              // context.read<CartBloc>().add(
+                              //       AddToCartEvent(
+                              //         CartItem(
+                              //           price: shoe.price,
+                              //           shoeImage: shoe.imageUrl,
+                              //           shoeName: shoe.name,
+                              //           shoeCategory: shoe.categoryID,
+                              //           shoeSize: int.parse(
+                              //               shoe.sizeOptions[0].toString()),
+                              //           shoeColor: shoe.colorOptions[0]
+                              //               ['color'],
+                              //           shoeId: shoe.productID,
+                              //           quantity: 1,
+                              //         ),
+                              //       ),
+                              //     );
                             }
                           }),
                     ],

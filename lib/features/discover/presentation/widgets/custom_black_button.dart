@@ -17,3 +17,19 @@ Widget customBlackButton({
     ),
   );
 }
+
+Widget customOutlineButton({
+  required String text,
+  required Function() onPressed,
+}) {
+  return OutlinedButton(
+    style: OutlinedButton.styleFrom(
+      side: const BorderSide(color: Colors.black),
+    ),
+    onPressed: onPressed,
+    child: Text(
+      text,
+      style: const TextStyle(color: Colors.black),
+    ),
+  );
+}
