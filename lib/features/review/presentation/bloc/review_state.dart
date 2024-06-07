@@ -32,6 +32,13 @@ final class GetReviewLoaded extends ReviewState {
   @override
   List<Object> get props => reviews.map((e) => e.ratingID).toList();
 }
+final class Get3ReviewLoaded extends ReviewState {
+  final List<Rating> reviews;
+  const Get3ReviewLoaded(this.reviews);
+
+  @override
+  List<Object> get props => reviews.map((e) => e.ratingID).toList();
+}
 
 // Posting Review states
 final class PostReviewInitial extends ReviewState {

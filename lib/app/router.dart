@@ -5,6 +5,7 @@ import 'package:shoe_shop_app/features/discover/data/models/shoe_model.dart';
 import 'package:shoe_shop_app/features/discover/presentation/view/discover_page.dart';
 import 'package:shoe_shop_app/features/order_summary/presentation/order_summary_page.dart';
 import 'package:shoe_shop_app/features/product_detail/presentation/product_detail.dart';
+import 'package:shoe_shop_app/features/review/presentation/view/review_page.dart';
 
 class AppRoutes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -24,6 +25,12 @@ class AppRoutes {
         return MaterialPageRoute(
             builder: (_) => ProductDetail(
                   shoe: args,
+                ));
+      case ReviewPage.routeName:
+        String args = settings.arguments as String;
+        return MaterialPageRoute(
+            builder: (_) => ReviewPage(
+                  productId: args,
                 ));
       default:
         return MaterialPageRoute(

@@ -10,6 +10,8 @@ import 'package:shoe_shop_app/features/discover/presentation/bloc/discover_bloc.
 import 'package:shoe_shop_app/features/review/domain/entities/rating.dart';
 
 import 'package:shoe_shop_app/features/review/presentation/bloc/review_bloc.dart';
+import 'package:shoe_shop_app/features/review/presentation/view/review_page.dart';
+import 'package:shoe_shop_app/features/review/presentation/widgets/rating_widget.dart';
 
 class ProductDetail extends StatefulWidget {
   const ProductDetail({super.key, required this.shoe});
@@ -42,10 +44,11 @@ class _ProductDetailState extends State<ProductDetail> {
   }
 
   void getReviews() async {
-    context.read<ReviewBloc>().add(GetReviewsEvent(shoe.productID, 3));
+    context.read<ReviewBloc>().add(Get3ReviewsEvent(shoe.productID));
   }
 
-  var gap = const SizedBox(height: 20);
+  var vgap = const SizedBox(height: 30);
+  var widgetGap = const SizedBox(height: 10);
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +76,7 @@ class _ProductDetailState extends State<ProductDetail> {
               ),
             );
           }
-          if (state is GetReviewLoaded) {
+          if (state is Get3ReviewLoaded) {
             setState(() {
               rating = state.reviews;
             });
@@ -94,7 +97,11 @@ class _ProductDetailState extends State<ProductDetail> {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          } else if (state is GetReviewLoaded) {}
+          } else if (state is ReviewError) {
+            return Center(
+              child: Text(state.message),
+            );
+          }
 
           return Stack(
             children: [
@@ -115,7 +122,7 @@ class _ProductDetailState extends State<ProductDetail> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-                      gap,
+                      vgap,
                       Text(
                         shoe.name,
                         style: const TextStyle(
@@ -123,7 +130,7 @@ class _ProductDetailState extends State<ProductDetail> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      gap,
+                      vgap,
                       Row(
                         children: [
                           Row(
@@ -150,13 +157,13 @@ class _ProductDetailState extends State<ProductDetail> {
                           ),
                         ],
                       ),
-                      gap,
+                      vgap,
                       const Text(
                         "Size",
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w600),
                       ),
-                      gap,
+                      vgap,
                       SizedBox(
                         height: 60,
                         width: MediaQuery.of(context).size.width,
@@ -195,67 +202,57 @@ class _ProductDetailState extends State<ProductDetail> {
                           ],
                         ),
                       ),
-                      gap,
+                      vgap,
                       const Text(
                         "Description",
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w600),
                       ),
+                      widgetGap,
                       Text(
                         shoe.description,
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w200,
+                          color: Colors.black45,
                         ),
                       ),
-                      gap,
+                      vgap,
                       Text(
                         "Review (${shoe.numberOfReviews})",
                         style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w600),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       // Get reviews
-                      for (var review in rating)
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const CircleAvatar(
-                              radius: 20,
-                              backgroundColor: Colors.black26,
+                      for (var review in rating) ReviewsWidget(review: review),
+
+                      // Get all reviews
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                side: const BorderSide(color: Colors.black45),
+                              ),
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  ReviewPage.routeName,
+                                  arguments: shoe.productID,
+                                );
+                              },
+                              child: const Text(
+                                'View All Reviews',
+                                style: TextStyle(color: Colors.black),
+                              ),
                             ),
-                            const SizedBox(width: 10),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    for (var i = 0; i < review.rating; i++)
-                                      const Icon(
-                                        Icons.star,
-                                        color: Colors.yellow,
-                                      ),
-                                    for (var i = 0; i < 5 - review.rating; i++)
-                                      const Icon(
-                                        Icons.star_border,
-                                        color: Colors.yellow,
-                                      ),
-                                  ],
-                                ),
-                                Text(
-                                  review.review,
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w200,
-                                  ),
-                                ),
-                                gap,
-                              ],
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
+                      ),
                       const SizedBox(
                         height: 100,
                       ),
@@ -290,7 +287,7 @@ class _ProductDetailState extends State<ProductDetail> {
                               fontWeight: FontWeight.w200,
                             ),
                           ),
-                          gap,
+                          widgetGap,
                           Text(
                             '\$${shoe.sizeOptions[0]}',
                             style: const TextStyle(
@@ -336,44 +333,6 @@ class _ProductDetailState extends State<ProductDetail> {
           );
         },
       ),
-      // floatingActionButton: Row(
-      //   mainAxisAlignment: MainAxisAlignment.center,
-      //   children: [
-      //     BlocConsumer<CartBloc, CartState>(
-      //       listener: (context, state) {
-      //         if (state is CartError) {
-      //           ScaffoldMessenger.of(context).showSnackBar(
-      //             SnackBar(
-      //               content: Text(state.message),
-      //             ),
-      //           );
-      //         }
-      //       },
-      //       builder: (context, state) {
-      //         return FloatingActionButton.extended(
-      //           onPressed: () {
-      //             context.read<CartBloc>().add(
-      //                   AddToCartEvent(
-      //                     CartItem(
-      //                       price: shoe.price,
-      //                       shoeImage: shoe.imageUrl,
-      //                       shoeName: shoe.name,
-      //                       shoeCategory: shoe.categoryID,
-      //                       shoeSize: int.parse(shoe.sizeOptions[0].toString()),
-      //                       shoeColor: shoe.colorOptions[0]['color'],
-      //                       shoeId: shoe.productID,
-      //                       quantity: 1,
-      //                     ),
-      //                   ),
-      //                 );
-      //           },
-      //           label: const Text('Add To Cart'),
-      //           icon: const Icon(Icons.add_shopping_cart_outlined),
-      //         );
-      //       },
-      //     ),
-      //   ],
-      // ),
     );
   }
 }

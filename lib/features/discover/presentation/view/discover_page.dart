@@ -59,6 +59,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
   }
 
   int selectedCategory = 0;
+  var vGap = const SizedBox(height: 30);
 
   @override
   Widget build(BuildContext context) {
@@ -175,7 +176,9 @@ class _DiscoverPageState extends State<DiscoverPage> {
                               ],
                             ),
                           ),
-                          const SizedBox(height: 20),
+                         
+                         
+                          vGap,
                           Flexible(
                             flex: 20,
                             child: GridView.builder(

@@ -16,6 +16,12 @@ class GetReviewsEvent extends ReviewEvent {
     this.ratingCount,
   );
 }
+class Get3ReviewsEvent extends ReviewEvent {
+  final String productID;
+  const Get3ReviewsEvent(
+    this.productID,
+  );
+}
 
 class PostReviewsEvent extends ReviewEvent {
   const PostReviewsEvent({

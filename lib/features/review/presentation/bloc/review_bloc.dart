@@ -19,6 +19,7 @@ class ReviewBloc extends Bloc<ReviewEvent, ReviewState> {
         super(const ReviewBlocInitial()) {
     on<GetReviewsEvent>(_getReviewsHandler);
     on<PostReviewsEvent>(_postReviewsHandler);
+    on<Get3ReviewsEvent>(_get3ReviewsHandler);
   }
   final GetReviews _getReviews;
   final AddRating _addRating;
@@ -31,6 +32,18 @@ class ReviewBloc extends Bloc<ReviewEvent, ReviewState> {
       (failure) => emit(ReviewError(failure.message)),
       (ratings) => emit(
         GetReviewLoaded(ratings),
+      ),
+    );
+  }
+
+  Future<void> _get3ReviewsHandler(
+      Get3ReviewsEvent event, Emitter<ReviewState> emit) async {
+    emit(const GetReviewLoading());
+    final result = await _getReviews(event.productID, 3);
+    result.fold(
+      (failure) => emit(ReviewError(failure.message)),
+      (ratings) => emit(
+        Get3ReviewLoaded(ratings),
       ),
     );
   }
@@ -66,6 +79,6 @@ class ReviewBloc extends Bloc<ReviewEvent, ReviewState> {
       (categories) => emit(const PostReviewSuccess()),
     );
     // Trigger get reviews again
-    add(GetReviewsEvent(event.productId, 1));
+    add(GetReviewsEvent(event.productId, null));
   }
 }
