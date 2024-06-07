@@ -33,3 +33,34 @@ Widget customOutlineButton({
     ),
   );
 }
+
+Widget customRowButton({
+  required String text,
+  required String image,
+  required Function() onPressed,
+}) {
+  return ElevatedButton(
+    
+    style: ButtonStyle(
+      backgroundColor: MaterialStateProperty.all(
+        Colors.black,
+      ),
+  
+    ),
+    onPressed: onPressed,
+    child: Row(
+      children: [
+        Image.asset(
+          image,
+          height: 20,
+          width: 20,
+        ),
+        const SizedBox(width: 10),
+        Text(
+          text,
+          style: const TextStyle(color: Colors.white),
+        ),
+      ],
+    ),
+  );
+}
