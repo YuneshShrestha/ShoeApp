@@ -191,7 +191,7 @@ class _ProductDetailState extends State<ProductDetail> {
                                         ? Colors.black
                                         : Colors.white,
                                     shape: BoxShape.circle,
-                                    border: Border.symmetric(
+                                    border: const Border.symmetric(
                                       horizontal: BorderSide(
                                         style: BorderStyle.solid,
                                         color: Colors.black45,

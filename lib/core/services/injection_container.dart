@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:shoe_shop_app/features/cart/data/datasources/cart_remote_data_source.dart';
 import 'package:shoe_shop_app/features/cart/data/repos/cart_repo_implementation.dart';
 import 'package:shoe_shop_app/features/cart/domain/repos/cart_repo.dart';
+import 'package:shoe_shop_app/features/cart/domain/usecases/delete_cart.dart';
 import 'package:shoe_shop_app/features/cart/domain/usecases/get_cart.dart';
 import 'package:shoe_shop_app/features/cart/domain/usecases/post_cart.dart';
 import 'package:shoe_shop_app/features/cart/presentation/bloc/cart_bloc.dart';
@@ -26,13 +27,15 @@ Future<void> init() async {
     // App Logic
     ..registerFactory(() => DiscoverBloc(getShoes: sl(), getCategories: sl()))
     ..registerFactory(() => ReviewBloc(getReviews: sl(), addRating: sl()))
-    ..registerFactory(() => CartBloc(getCart: sl(), postCart: sl()))
+    ..registerFactory(
+        () => CartBloc(getCart: sl(), postCart: sl(), deleteCartItem: sl()))
     // Use cases
     ..registerLazySingleton(() => GetShoes(sl()))
     ..registerLazySingleton(() => GetCategories(sl()))
     ..registerLazySingleton(() => GetReviews(sl()))
     ..registerLazySingleton(() => AddRating(sl()))
     ..registerLazySingleton(() => PostCart(sl()))
+    ..registerLazySingleton(() => DeleteCartItem(sl()))
     ..registerLazySingleton(() => GetCart(sl()))
     // Repositories
     ..registerLazySingleton<DiscoverRepo>(

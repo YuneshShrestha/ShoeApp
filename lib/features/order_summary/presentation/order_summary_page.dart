@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shoe_shop_app/core/utils/api.dart';
 import 'package:shoe_shop_app/core/utils/enum.dart';
+import 'package:shoe_shop_app/core/widgets/custom_button.dart';
 
 import 'package:shoe_shop_app/features/cart/domain/entities/cart.dart';
 import 'package:shoe_shop_app/features/order_summary/data/models/order_model.dart';
@@ -21,7 +22,8 @@ class OrderSummaryPage extends StatelessWidget {
           children: [
             Text(cartItems.toString()),
             Text('Total Price: \$${getTotalPrice()}'),
-            ElevatedButton(
+            customBlackButton(
+              text: 'Checkout Success',
               onPressed: () async {
                 OrderModel order = OrderModel(
                   cartItems: cartItems,
@@ -33,10 +35,21 @@ class OrderSummaryPage extends StatelessWidget {
                 );
                 // Push to firebase
                 try {
-                  await API.dio.post(
+                  final data = await API.dio.post(
                     '/orders.json',
                     data: order.toJson(),
                   );
+                  if (context.mounted &&
+                      (data.statusCode == 200 || data.statusCode == 201)) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Checkout Success'),
+                      ),
+                    );
+                    Navigator.of(context).popUntil(
+                      ModalRoute.withName('/'),
+                    );
+                  }
                 } catch (e) {
                   if (context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -47,7 +60,6 @@ class OrderSummaryPage extends StatelessWidget {
                   }
                 }
               },
-              child: const Text('Checkout'),
             ),
           ],
         ),

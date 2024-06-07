@@ -34,3 +34,6 @@ final class CartError extends CartState {
 final class CartPosted extends CartState {
   const CartPosted();
 }
+final class CartDeleted extends CartState {
+  const CartDeleted();
+}
